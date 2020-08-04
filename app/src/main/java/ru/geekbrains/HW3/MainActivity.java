@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnStart.setOnClickListener(v -> {
             binding.pbProgressBar.setVisibility(View.VISIBLE);
             convertPicture();
-            //showCancelDialog();
+            showCancelDialog();
         });
     }
 
@@ -79,6 +79,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return newPic;
+    }
+    private void showCancelDialog() {
+        if (alertDialog == null || !alertDialog.isShowing()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Выполняется конвертация");
+            builder.setPositiveButton(R.string.cancel, (dialog, which) -> {
+                dialog.dismiss();
+                compositeDisposable.clear();
+                binding.pbProgressBar.setVisibility(View.GONE);
+            });
+            alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
 
